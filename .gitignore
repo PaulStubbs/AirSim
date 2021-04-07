@@ -386,3 +386,5 @@ build_docs/
 
 # api docs
 PythonClient/docs/_build
+# temp
+Unreal/Plugins/AirSim_Old/

@@ -25,6 +25,10 @@
 		{
 			"Name": "OculusVR",
 			"Enabled": false
+		},
+		{
+			"Name": "Airsim_Drone",
+			"Enabled": true
 		}
 	]
 }
