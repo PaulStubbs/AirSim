@@ -9,11 +9,24 @@ AFlyingPawn_Custom::AFlyingPawn_Custom()
 	body = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Body"));
 	RootComponent = body;
 
+	ConstructorHelpers::FObjectFinder<UStaticMesh> BodyMesh(TEXT("/Airsim_Drone/Models/QuadRotor1/Quadrotor1"));
+	if (BodyMesh.Object)
+	{
+		body->SetStaticMesh(BodyMesh.Object);
+	}
+
+	ConstructorHelpers::FObjectFinder<UStaticMesh> PropMesh(TEXT("/Airsim_Drone/Models/QuadRotor1/Propeller"));
+
 	//Create Props and Rotating Movements
 	for(int x = 0; x < 4; x++)
 	{
 		UStaticMeshComponent* Prop = CreateDefaultSubobject<UStaticMeshComponent>(FName("Prop" + FString::FromInt(x)));
 		Prop->SetupAttachment(RootComponent, FName("Prop" + FString::FromInt(x)));
+
+		if (PropMesh.Object)
+		{
+			Prop->SetStaticMesh(PropMesh.Object);
+		}
 
 		URotatingMovementComponent* RotatingMovementComponent = CreateDefaultSubobject<URotatingMovementComponent>(FName("Rotation" + FString::FromInt(x)));
 		RotatingMovementComponent->SetUpdatedComponent(Prop);
@@ -32,19 +45,19 @@ AFlyingPawn_Custom::AFlyingPawn_Custom()
 	
 		camera_front_left = CreateDefaultSubobject<UChildActorComponent>(TEXT("Camera_Front_Left"));
 		camera_front_left->SetChildActorClass(CameraClassFinder.Class);
-		camera_front_left->SetupAttachment(RootComponent);
+		camera_front_left->SetupAttachment(RootComponent, "Front Left Camera");
 	
 		camera_front_right = CreateDefaultSubobject<UChildActorComponent>(TEXT("Camera_Front_Right"));
 		camera_front_right->SetChildActorClass(CameraClassFinder.Class);
-		camera_front_right->SetupAttachment(RootComponent);
+		camera_front_right->SetupAttachment(RootComponent, "Front Right Camera");
 	
 		camera_back_center = CreateDefaultSubobject<UChildActorComponent>(TEXT("Camera_Back_Center"));
 		camera_back_center->SetChildActorClass(CameraClassFinder.Class);
-		camera_back_center->SetupAttachment(RootComponent);
+		camera_back_center->SetupAttachment(RootComponent, "Back Camera");
 	
 		camera_bottom_center = CreateDefaultSubobject<UChildActorComponent>(TEXT("Camera_Bottom_Center"));
 		camera_bottom_center->SetChildActorClass(CameraClassFinder.Class);
-		camera_bottom_center->SetupAttachment(RootComponent);
+		camera_bottom_center->SetupAttachment(RootComponent, "Bottom Camera");
 	}
 }
 
